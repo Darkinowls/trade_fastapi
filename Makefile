@@ -4,4 +4,7 @@ ai:
 ar:
 	alembic revision --autogenerate -m "create table"
 
-.PHONY: ai
+au:
+	alembic upgrade head
+
+.PHONY: ai ar au
