@@ -1,6 +1,6 @@
 import asyncio
 
-from sqlalchemy import Column
+from sqlalchemy import Column, Integer
 from sqlalchemy import MetaData
 from sqlalchemy import select
 from sqlalchemy import String
@@ -18,12 +18,17 @@ my_engine = create_async_engine(
     echo=True,
 )
 
+class Roles(Base):
+    __tablename__ = "roles"
+
+    id = Column(String, primary_key=True)
+    name = Column(String, nullable=False)
 
 class User(Base):
     __tablename__ = "users"
 
-    id = Column(String, primary_key=True)
+    id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
-    age = Column(String)
+    age = Column(Integer)
     city = Column(String)
-    degree = Column(String, nullable=False)
+    degree = Column(String, nullable=False, default="bachelor")

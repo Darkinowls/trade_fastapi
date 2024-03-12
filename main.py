@@ -67,22 +67,22 @@ class Degree(Enum):
     doctor = "doctor"
 
 
-class User(BaseModel):
+class UserSchema(BaseModel):
     name: str
     age: int
     city: str
 
 
-class Trade(BaseModel):
+class TradeSchema(BaseModel):
     name: str = None
     age: int = Field(ge=0, le=1000)
     city: str
-    user: User
+    user: UserSchema
     degree: Optional[Degree]
 
 
 @app.post("/users")
-async def create_user(trade: Trade) -> List[Trade]:
+async def create_user(trade: TradeSchema) -> List[TradeSchema]:
     trade.age = 'ads'
     return [trade]
 
