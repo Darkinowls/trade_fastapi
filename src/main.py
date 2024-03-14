@@ -4,6 +4,7 @@ from fastapi.responses import ORJSONResponse
 from starlette import status
 
 from src.auth.router import auth_router
+from src.operations.router import op_r
 
 app = FastAPI(default_response_class=ORJSONResponse, debug=True, title="TEST")
 
@@ -17,5 +18,8 @@ async def validation_exception_handler(exc: RequestValidationError):
 
 
 app.include_router(
-    auth_router
+    auth_router,
+)
+app.include_router(
+    op_r,
 )

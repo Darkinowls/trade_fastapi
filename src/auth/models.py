@@ -1,12 +1,11 @@
 from fastapi_users_db_sqlalchemy import SQLAlchemyBaseUserTable
-from sqlalchemy import Column, Integer, Boolean, ForeignKey
-from sqlalchemy import MetaData
+from sqlalchemy import Integer, Boolean, ForeignKey, MetaData
 from sqlalchemy import String
-from sqlalchemy.orm import declarative_base, Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column
 
-meta_data = MetaData()
-Base = declarative_base()
+from src.database import Base
 
+meta_data = Base.metadata
 
 class Role(Base):
     __tablename__ = "role"
