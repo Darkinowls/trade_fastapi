@@ -1,15 +1,15 @@
-from datetime import datetime
-from typing import Annotated
+import asyncio
+from time import sleep
 
 from fastapi import APIRouter, Depends, Query
-from pydantic import Field
-from pydantic.main import BaseModel
+from fastapi_cache.decorator import cache
 from sqlalchemy import select, insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.database import get_async_session
 from src.operations.models import Operation
 from src.operations.schema import OperationCreateRequest
+from src.util import Res
 
 op_r = APIRouter(
     prefix="/operations",
@@ -18,15 +18,15 @@ op_r = APIRouter(
 
 
 @op_r.get("/")
-async def get_operations(bigger_than: int = Query(ge=0), session: AsyncSession = Depends(get_async_session)):
-    q = select(Operation).where(Operation.id > bigger_than)  # type: ignore
+async def get_operations(bigger_than: int = Query(ge=1), session: AsyncSession = Depends(get_async_session)):
+    q = select(Operation).limit(2).where(Operation.id > bigger_than)  # type: ignore
     r = await session.execute(q)
-    return {"message": r.scalars().all()}
+    # raise HTTPException(status_code=401, detail="Operation created?")
+    return Res(r.scalars().all())
 
 
 @op_r.post("/")
 async def add_operation(operation: OperationCreateRequest, session: AsyncSession = Depends(get_async_session)):
-
     # new style
     # op = Operation(**operation.dict())
     # session.add(op)
@@ -36,4 +36,12 @@ async def add_operation(operation: OperationCreateRequest, session: AsyncSession
     st = insert(Operation).values(**operation.dict())
     r = await session.execute(st)
     await session.commit()
-    return {"message": r.returns_rows}
+    return Res(r.returns_rows)
+
+
+@op_r.get("/long")
+@cache(expire=100)
+async def long_operation(session: AsyncSession = Depends(get_async_session)):
+    # TODO: cache doesn't work
+    sleep(2)
+    return Res('good')
