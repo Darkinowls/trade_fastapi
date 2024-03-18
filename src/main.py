@@ -9,6 +9,7 @@ from starlette.requests import Request
 
 from src.auth.router import auth_router
 from src.operations.router import op_r
+from src.tasks.router import task_router
 
 app = FastAPI(default_response_class=ORJSONResponse, debug=True, title="TEST")
 
@@ -26,6 +27,9 @@ app.include_router(
 )
 app.include_router(
     op_r,
+)
+app.include_router(
+    task_router,
 )
 
 

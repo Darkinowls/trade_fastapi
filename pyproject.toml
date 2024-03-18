@@ -32,6 +32,8 @@ alembic = "1.13.1"
 asyncpg = "0.29.0"
 fastapi-users = {version = "12.1.3", extras = ["sqlalchemy"]}
 fastapi-cache2 = {version = "0.2.1", extras = ["redis"]}
+celery = "^5.3.6"
+flower = "^2.0.1"
 
 
 [build-system]
