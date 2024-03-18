@@ -19,4 +19,7 @@ cw:
 cf:
 	celery -A src.tasks.tasks:celery_app flower --loglevel=info
 
+test:
+	pytest -v --disable-warnings tests
+
 .PHONY: ai ar au server
