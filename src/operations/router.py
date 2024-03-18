@@ -41,7 +41,6 @@ async def add_operation(operation: OperationCreateRequest, session: AsyncSession
 
 @op_r.get("/long")
 @cache(expire=100)
-async def long_operation(session: AsyncSession = Depends(get_async_session)):
-    # TODO: cache doesn't work
+async def long_operation():
     sleep(2)
     return Res('good')

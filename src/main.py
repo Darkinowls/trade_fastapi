@@ -1,4 +1,4 @@
-import aioredis
+from redis import asyncio as aioredis
 from fastapi import FastAPI
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import ORJSONResponse
@@ -31,5 +31,6 @@ app.include_router(
 
 @app.on_event("startup")
 async def startup_event():
-    redis = await aioredis.create_connection(('localhost', 6379))
+    # just redis
+    redis = aioredis.from_url("redis://localhost:6379")
     FastAPICache.init(RedisBackend(redis), prefix="fastapi-cache")
