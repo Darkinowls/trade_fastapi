@@ -9,6 +9,7 @@ from src.config import DB_HOST, DB_USER, DB_PASS, DB_PORT, DB_NAME
 
 from src.auth.models import meta_data
 import src.operations.models  # noqa
+import src.chat.models  # noqa
 
 # import src.operations.models  # noqa
 

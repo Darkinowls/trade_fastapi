@@ -18,7 +18,7 @@ op_r = APIRouter(
 
 
 @op_r.get("/")
-async def get_operations(bigger_than: int = Query(ge=0), session: AsyncSession = Depends(get_async_session)):
+async def get_operations(bigger_than: int = Query(0, ge=0), session: AsyncSession = Depends(get_async_session)):
     q = select(Operation).limit(2).where(Operation.id > bigger_than)  # type: ignore
     r = await session.execute(q)
     # raise HTTPException(status_code=401, detail="Operation created?")

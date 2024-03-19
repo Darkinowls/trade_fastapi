@@ -7,8 +7,12 @@ from fastapi_cache.backends.redis import RedisBackend
 from starlette import status
 from starlette.requests import Request
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.staticfiles import StaticFiles
+
 from src.auth.router import auth_router
+from src.chat.router import chat_router
 from src.operations.router import op_r
+from src.pages.router import page_router
 from src.tasks.router import task_router
 
 app = FastAPI(default_response_class=ORJSONResponse, debug=True, title="TEST")
@@ -31,6 +35,12 @@ app.include_router(
 app.include_router(
     task_router,
 )
+app.include_router(
+    page_router,
+)
+app.include_router(
+    chat_router,
+)
 
 origins = [
     "http://localhost",
@@ -47,8 +57,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 @app.on_event("startup")
 async def startup_event():
     # just redis
     redis = aioredis.from_url("redis://localhost:6379")
     FastAPICache.init(RedisBackend(redis), prefix="fastapi-cache")
+
+
+app.mount("/static", StaticFiles(directory="src/static"), name="static")
