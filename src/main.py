@@ -6,7 +6,7 @@ from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
 from starlette import status
 from starlette.requests import Request
-
+from fastapi.middleware.cors import CORSMiddleware
 from src.auth.router import auth_router
 from src.operations.router import op_r
 from src.tasks.router import task_router
@@ -32,6 +32,20 @@ app.include_router(
     task_router,
 )
 
+origins = [
+    "http://localhost",
+    "http://localhost:8080",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    # COOKIE
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+    # SOMETIMES WE HAVE ERRORS. PUT YOUR HEADERS HERE
+    allow_headers=["*"],
+)
 
 @app.on_event("startup")
 async def startup_event():
