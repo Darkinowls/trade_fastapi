@@ -53,7 +53,7 @@ app.dependency_overrides[get_async_session] = override_get_async_session
 
 client = TestClient(app)
 
-
+@pytest.fixture(scope="session")
 async def ac() -> AsyncGenerator[AsyncClient, None]:
-    async with AsyncClient(app=app, base_url="http://test") as cl:
-        yield cl
+    async with AsyncClient(app=app, base_url="http://test") as ac:
+        yield ac
