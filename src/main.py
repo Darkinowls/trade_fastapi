@@ -5,8 +5,8 @@ from fastapi.responses import ORJSONResponse
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
 from starlette import status
-from starlette.requests import Request
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.requests import Request
 from starlette.staticfiles import StaticFiles
 
 from src.auth.router import auth_router

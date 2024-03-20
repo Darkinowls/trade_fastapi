@@ -1,13 +1,7 @@
-from typing import Annotated
-
 from fastapi import (
-    Cookie,
     Depends,
-    FastAPI,
-    Query,
     WebSocket,
-    WebSocketException,
-    status, APIRouter,
+    APIRouter,
 )
 from sqlalchemy import select, insert
 from starlette.websockets import WebSocketDisconnect

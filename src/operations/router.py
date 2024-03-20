@@ -25,6 +25,28 @@ async def get_operations(bigger_than: int = Query(0, ge=0), session: AsyncSessio
     return Res(r.scalars().all())
 
 
+class OffsetLimit:
+    """
+    This is a class for OffsetLimit.
+    Це інший спосіб використання Depends замість просто функції
+    """
+    def __init__(self, offset: int = 0, limit: int = 10):
+        self.offset = offset
+        self.limit = limit
+
+
+# @op_r.get("/paginate")
+# async def paginate(offset: int = 0, limit: int = 10):
+#     return OffsetLimit(offset, limit)
+
+
+@op_r.get("/get_operations2")
+async def get_operations2(ol: OffsetLimit = Depends(), session=Depends(get_async_session)):
+    q = select(Operation).limit(ol.limit).offset(ol.offset)
+    r = await session.execute(q)
+    return Res(r.scalars().all())
+
+
 @op_r.post("/")
 async def add_operation(operation: OperationCreateRequest, session: AsyncSession = Depends(get_async_session)):
     # new style
