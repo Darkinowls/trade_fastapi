@@ -61,8 +61,7 @@ async def get_last_messages(session=Depends(get_async_session)):
 
 @chat_router.websocket("/{client_id}")
 async def websocket_endpoint(websocket: WebSocket,
-                             client_id: int,
-                             messages: list[str] = Depends(get_last_messages)):
+                             client_id: int):
     await manager.connect(websocket)
     try:
         while True:
