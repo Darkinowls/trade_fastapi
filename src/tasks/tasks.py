@@ -3,7 +3,7 @@ from email.message import EmailMessage
 
 from celery import Celery
 
-from src.config import APP_GMAIL_PASSWORD
+from src.config import APP_GMAIL_PASSWORD, SMTP_USER
 
 celery_app = Celery('tasks', broker='redis://localhost:6379/1')
 
@@ -15,7 +15,7 @@ def add(x, y):
 
 SMTP_SERVER = "smtp.gmail.com"
 SMTP_PORT = 465
-SMTP_USER = "blackinowls@gmail.com"
+
 
 
 def __make_email(email, subject) -> EmailMessage:
